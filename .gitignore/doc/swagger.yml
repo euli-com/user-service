@@ -1,0 +1,129 @@
+swagger: "2.0"
+info:
+  description: "Modelagem e documentação da API para o euli.com"
+  version: "1.0.0"
+  title: "euli.com"
+  contact:
+    email: "danielpsf@gmail.com"
+host: "TBD" # TODO: Once the code is deployed, review this documentation and fill this field up
+basePath: "/v1"
+tags:
+- name: "usuários"
+  description: "CRUD de usuários"
+  externalDocs:
+    description: "Casos de uso"
+    url: "https://bit.ly" # TODO: Once the diagrams are done, update this with the diagrams link
+schemes:
+- "https"
+paths:
+  /user:
+    post:
+      tags:
+      - "usuários"
+      summary: "Criar usuário"
+      description: "Cria um usário, adicionando ele na base de dados e no AWS Cognito User Pool"
+      operationId: "createUser"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Objeto necessário para a criação do usuário"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "sucesso"
+  /user/{id}:
+    get:
+      tags:
+      - "usuários"
+      summary: "Obtém os usuários pelo ID"
+      description: "Esta operação deve ser protegida no futuro. Ela retorna um usuário, desde que o mesmo exista na base de dados"
+      operationId: "getUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "O id do usuário"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Usuário encontrado, retorna a entidade de usuário"
+          schema:
+            $ref: "#/definitions/User"
+        404:
+          description: "Usuário não encontrado"
+    put:
+      tags:
+      - "usuários"
+      summary: "Atualizar usuários"
+      description: "Esta operação deve ser protegida no futuro. Ela atualiza o usuáriocom base no objeto passado."
+      operationId: "updateUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id do usuário que deverá ser atualizado"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Objeto necessário para a atualizção do usuário"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: "Usuário atualizado com sucesso"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Entidade de usuário utilizada na operação não é válida"
+        404:
+          description: "Usuário não encontrado"
+    delete:
+      tags:
+      - "usuários"
+      summary: "Delete user"
+      description: "Esta operação deve ser protegida no futuro. Ela deleta (desativa) o usuário com o ID especificado."
+      operationId: "deleteUser"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id do usuário que deverá ser deletado"
+        required: true
+        type: "string"
+      responses:
+        404:
+          description: "Usuário não encontrado"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        format: "UUID"
+      username:
+        type: "string"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      phone:
+        type: "string"
+    xml:
+      name: "User"
+externalDocs:
+  description: "Saiba mais sobre a arquitetura do euli.com aqui"
+  url: "https://bit.ly/2OKrKLT"
